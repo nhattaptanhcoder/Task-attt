@@ -12,13 +12,13 @@ bool checkPrime(int num)
 }
 
 int countPrime(int n, int m) {
-    int sum = 0;
+    int count = 0;
     for (int i = n; i <= m; i++) {
         if (checkPrime(i)) {
-            sum += i;
+            count++;
         }
     }
-    return sum;
+    return count;
 }
 
 int main() {
@@ -28,6 +28,6 @@ int main() {
     printf("Nhap m: ");
     scanf("%d", &m);
 
-    printf("Tong cac so nguyen to tu %d den %d la: %d\n", n, m, countPrime(n, m));
+    printf("So cac so nguyen to tu %d den %d la: %d\n", n, m, countPrime(n, m));
     return 0;
 }
