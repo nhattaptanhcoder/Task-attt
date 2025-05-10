@@ -1,0 +1,28 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdbool.h>
+
+bool checkPrime(int num) {
+    if (num <= 1) return false;
+    for (int i = 2; i <= sqrt(num); i++) {
+        if (num % i == 0) return false;
+    }
+    return true;
+}
+
+void Prime(int n) {
+    int start = pow(10, n - 1);
+    int end = pow(10, n);
+    for (int i = start; i < end; i++) {
+        if (checkPrime(i)) {
+            printf("%d ", i);
+        }
+    }
+}
+
+int main() {
+    int n ;
+    scanf("%d",&n);
+    Prime(n);
+    return 0;
+}
