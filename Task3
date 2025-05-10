@@ -1,0 +1,75 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdbool.h>
+
+#define MAX 1000  
+
+int divisor(int n, int arrStore[]) {
+    int count = 0;
+    for (int i = 1; i <= n; i++) {
+        if (n % i == 0) {
+            arrStore[count++] = i;
+        }
+    }
+    return count;
+}
+
+int sumDivisor(int n) {
+    int arr[MAX];
+    int length = divisor(n, arr);
+    int sum = 0;
+    for (int i = 0; i < length; i++) {
+        sum += arr[i];
+    }
+    return sum;
+}
+
+int countDivisors(int n) {
+    int arr[MAX];
+    return divisor(n, arr);
+}
+
+bool checkPrime(int num) {
+    if (num <= 1) return false;
+    for (int i = 2; i <= sqrt(num); i++) {
+        if (num % i == 0) return false;
+    }
+    return true;
+}
+
+int countDivisorPrime(int n) {
+    int arr[MAX];
+    int len = divisor(n, arr);
+    int count = 0;
+    for (int i = 0; i < len; i++) {
+        if (checkPrime(arr[i])) {
+            count++;
+        }
+    }
+    return count;
+}
+
+int sumDivisorPrime(int n) {
+    int arr[MAX];
+    int len = divisor(n, arr);
+    int sum = 0;
+    for (int i = 0; i < len; i++) {
+        if (checkPrime(arr[i])) {
+            sum += arr[i];
+        }
+    }
+    return sum;
+}
+
+int total(int n) {
+    int result = n + sumDivisor(n) + countDivisors(n) - sumDivisorPrime(n) - countDivisorPrime(n);
+    return result;
+}
+
+int main() {
+    int n;
+    printf("Nhap so nguyen n: ");
+    scanf("%d", &n);
+    printf("Tong can tim la : %d\n", total(n));
+    return 0;
+}
