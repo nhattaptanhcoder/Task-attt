@@ -1,0 +1,32 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdbool.h>
+#include <stdlib.h>
+
+bool checkPrime(int n){
+	if ( n < 2) return false;
+	for ( int i = 2 ; i <= sqrt(n) ;i++){
+		if ( n % i == 0) return false;
+	}
+	return true;
+}
+
+int checkSumPrime( int A, int B , int C){
+	
+	for ( int i = 1 ; i<= 1000000; i++){
+		int sum = A * pow(i,2) + B * i + C ;
+		if (checkPrime(sum)) return i;
+	}
+	
+}
+int main(){
+	int A,B,C;
+	printf("Nhap cac he so A B C :");
+	scanf("%d %d %d",&A,&B,&C);
+	
+	printf("x min la : %d",checkSumPrime(A,B,C));
+	
+	
+	
+	return 0;
+}
