@@ -1,0 +1,43 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdbool.h>
+
+bool checkPrime(int n) {
+    if (n <= 1) return false;
+    for (int i = 2; i <= (int)sqrt(n); i++) {
+        if (n % i == 0) return false;
+    }
+    return true;
+}
+
+int countPrime(int n){
+	int count = 0;
+	for ( int i = 2 ; i <= n ;i++){
+		
+		if ( checkPrime(i)){
+			count ++;
+		}
+	}
+	return count ;
+}
+
+int countDivisor(int n){
+	int count = 0;
+	for ( int i = 1 ; i<= n/2 ; i++){
+	   if ( n % 2 == 0){
+	   	count ++;
+	   }
+	}
+	return count ;
+	
+}
+
+
+int main() {
+    int n;
+    printf("Nhap so nguyen duong n : ");
+    scanf("%d",&n);
+    printf("So cac so nguyen to nho hon n la : %d \n",countPrime(n));
+    printf("So cac uoc nho hon n la : %d ",countDivisor(n));
+    return 0;
+}
