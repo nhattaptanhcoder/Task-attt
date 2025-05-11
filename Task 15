@@ -1,0 +1,26 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdbool.h>
+#include <stdlib.h>
+
+bool checkPrime(int n){
+	if ( n < 2) return false;
+	for ( int i = 2 ; i <= sqrt(n) ;i++){
+		if ( n % i == 0) return false;
+	}
+	return true;
+}
+
+int main(){
+	int n ;
+	printf("Nhap gia tri cua so nguyen duong N:");
+	scanf("%d",&n);
+	for ( int i = 1 ; i <= n ; i++){
+		if (checkPrime(i) && checkPrime(i + 2)){
+			printf("(%d %d) ;",i,i+2);
+		}
+	}
+	
+	
+	return 0;
+}
