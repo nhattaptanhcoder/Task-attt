@@ -1,0 +1,40 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdbool.h>
+#include <stdlib.h>
+
+bool checkPrime(int n){
+	if ( n < 2) return false;
+	for ( int i = 2 ; i <= sqrt(n) ;i++){
+		if ( n % i == 0) return false;
+	}
+	return true;
+}
+
+ void checkSumPrime(int A , int B ,int C , int m , int l){
+ 	int count = 0;
+	for ( int i = m ; i <= l ; i++){
+		double sum = A * pow(i,2) + B * i + C;
+		if ( (checkPrime((int)sum))){
+			count ++;
+			printf("%d ",i);
+		}
+	}
+	if ( count == 0){
+		printf("Khong co gia tri nao thoa man ");
+	}
+}
+
+
+int main(){
+	int m,l,A,B,C;
+	printf("Nhap gia tri cua m va l : ");
+	scanf("%d %d",&m,&l);
+	printf("Nhap cac gia tri cua he so A B C :");
+	scanf("%d%d%d",&A,&B,&C);
+	printf("Cac gia tri thoa man la : ");
+	checkSumPrime(A,B,C,m,l);
+	
+	
+	return 0;
+}
