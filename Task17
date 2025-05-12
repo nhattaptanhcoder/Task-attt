@@ -17,15 +17,19 @@ int checkSumPrime( int A, int B , int C){
 		int sum = A * pow(i,2) + B * i + C ;
 		if (checkPrime(sum)) return i;
 	}	
-	return -1;
+	return 0;
 }
 int main(){
 	int A,B,C;
 	printf("Nhap cac he so A B C :");
 	scanf("%d %d %d",&A,&B,&C);
-	
-	printf("x min la : %d",checkSumPrime(A,B,C));
-	
+	int result = checkSumPrime(A,B,C);
+	if(result){
+		printf("So nguyen duong x nho nhat la : %d",result);
+	}
+	else{
+		printf("Ko co so nguyen duong x nao thoa man ");
+	}
 	
 	
 	return 0;
