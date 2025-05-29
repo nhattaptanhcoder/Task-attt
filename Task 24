@@ -1,0 +1,53 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdbool.h>
+
+bool checkPrime(int n) {
+    if (n < 2) return false;
+    for (int i = 2; i <= sqrt(n); i++) {
+        if (n % i == 0) return false;
+    }
+    return true;
+}
+
+int arrSave(int arr1[], int arr2[], int max) {
+    int count = 0;
+    for (int i = 0; i * i <= max; i++) {
+        arr1[count] = i * i;
+        arr2[count] = i * i;
+        count++;
+    }
+    return count;
+}
+
+int check(int prime, int length, int arr1[], int arr2[]) {
+    for (int i = 0; i < length; i++) {
+        for (int j = 0; j < length; j++) {
+            if (prime == arr1[i] + arr2[j]) {
+                return prime;
+            }
+        }
+    }
+    return 0; 
+}
+
+int main() {
+    int a, b;
+    printf("Nhap doan a b: ");
+    scanf("%d %d", &a, &b);
+
+    int arr1[1000];
+    int arr2[1000];
+    int length = arrSave(arr1, arr2, b);  
+    for (int i = a; i <= b; i++) {
+        if (checkPrime(i)) {
+            int result = check(i, length, arr1, arr2);
+            if (result != 0) {
+                printf("%d ", result);
+            }
+        }
+    }
+
+
+    return 0;
+}
