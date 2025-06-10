@@ -1,7 +1,7 @@
 #include <stdio.h>
 
 #define max 10000
-
+// ham chuyen nhi phan de lay chi so k
 int convertBinary(int arr[], int k){
 	int i = 0;
 	while (k > 0){
@@ -11,6 +11,7 @@ int convertBinary(int arr[], int k){
 	return i;
 }
 
+// ham tinh uoc chung lon nhat
 int gcd(int a, int b){
 	while (b != 0){
 		int r = a % b;
@@ -20,6 +21,7 @@ int gcd(int a, int b){
 	return a;
 }
 
+// ham tinh  (a^k) mod (n)
 int mod(int arr[], int k, int a, int n){
 	int b = 1;
 	int length = convertBinary(arr, k);
@@ -36,21 +38,23 @@ int mod(int arr[], int k, int a, int n){
 	return b;
 }
 
-
+// ham kiem tra so carmichael 
+// so carmuchael la so thoa man : 
+//-> voi moi a thuoc doan [2; n-2] có gcd(a,n) = 1 voi n la hop so 
 int isCarmichael(int n){
 	if (n < 3) return 0;
 	
 	   int check = 0;
+// kiem tra xem n co phai hop so khong
     for (int i = 2; i * i <= n; i++){
         if (n % i == 0){
             check = 1;
             break;
         }
     }
-    
-    
+
     if (!check) return 0;
-    
+    //neu la hop so thi kiem tra den ucln hehehe
 	for (int a = 2; a < n; a++){
 		if (gcd(a, n) == 1){
 			int arr[max];
