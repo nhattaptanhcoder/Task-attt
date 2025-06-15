@@ -1,0 +1,55 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdbool.h>
+
+#define max 10000
+bool checkPrime(int n) {
+    if (n < 2) return false;
+    for (int i = 2; i <= sqrt(n); i++) {
+        if (n % i == 0) return false;
+    }
+    return true;
+}
+
+int convertBinary(int arr[], int p){
+	int i = 0;
+	while( p!= 0){
+		arr[i++] = p % 2;
+		p = p / 2;
+	}
+	return i;
+	
+	
+}
+int mod(int a, int p , int N){
+	int arr[max];
+	int length = convertBinary(arr,p);
+	int b = 1 ;
+	int A = a;
+	if(arr[0] == 1){
+		b = a;
+	}
+	for ( int i = 1; i < length ; i++){
+		A =  (A*A) % N;
+		if ( arr[i] == 1){
+			b = (A * b) % N ;
+		}
+	}
+	
+	return b;
+}
+
+
+int main(){
+    int p,N;
+    printf("Nhap p va N : ");
+    scanf("%d%d",&p,&N);
+    for ( int a = 2 ; a < N ; a++){
+    	if (checkPrime(mod(a,p,N))){
+    		printf("%d ",a);
+		}
+	}
+
+
+  return 0;
+}
