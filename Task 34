@@ -1,7 +1,8 @@
 #include <stdio.h>
-
+#include <math.h>
+#include <stdbool.h>
+#include <stdlib.h>
 #define max 10000
-
 
 
 
@@ -32,27 +33,34 @@ int mod(int k, int a, int n){
 }
 
 
+bool checkFermat(int t, int n ){
+	 
+	 int a = 2 + rand() % (n - 3); 
+	 
+	 for ( int i = 0 ; i < 3 ; i++){
+	 	if (mod(n-1,a,n) != 1 ){
+	 		return false;
+		 }
+	 }
+	
+	
+	return true;
+}
+
+
 int main(){
 	int n;
+	int t;
 	printf("Nhap so n le can kiem tra : ");
 	scanf("%d",&n);
-	
-	int t;
-	printf("Nhap so vong can kiem tra : ");
-	scanf("%d",&t);
-	
-	int a ;
-	for ( int i = 0 ; i < t ; i++){
-		printf("Nhap co so a : ");
-		scanf("%d",&a);
-		if (mod(n-1,a,n) == 1 ){
-			printf("%d la so nguyen to voi co so %d \n",n,a);
-		}
-		else{
-			printf("%d la hop so voi co so %d \n",n,a);
-		}
+    printf("Nhap so vong : ");
+    scanf("%d",&t);
+    if(checkFermat(t,n)){
+    	printf("%d la so nguyen to ",n);
 	}
-	
+	else{
+		printf("%d la hop so ",n);
+	}
 	
 	
 	return 0;
