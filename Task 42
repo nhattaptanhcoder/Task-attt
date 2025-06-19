@@ -1,0 +1,92 @@
+#include <stdio.h>
+#include <math.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <time.h>
+
+#define max 1000
+#define Max 10000000
+
+bool isPrimes[Max + 1];
+int primes[max];
+
+
+int checkPrime(int n) {
+	if (n < 2) return 0;
+	for (int i = 2; i * i <= n; i++) {
+		if (n % i == 0) return 0;
+	}
+	return 1;
+}
+
+void sang() {
+	int count = 0;
+	for (int i = 0; i <= Max; i++) {
+		isPrimes[i] = true;
+	}
+	isPrimes[0] = isPrimes[1] = false;
+
+	for (int i = 2; i * i <= Max; i++) {
+		if (isPrimes[i]) {
+			for (int j = i * i; j <= Max; j += i) {
+				isPrimes[j] = false;
+			}
+		}
+	}
+
+	for (int i = 2; i <= Max && count < max; i++) {
+		if (isPrimes[i]) {
+			primes[count++] = i;
+		}
+	}
+}
+
+
+int convertBinary(int arr[], int k) {
+	int i = 0;
+	while (k > 0) {
+		arr[i++] = k % 2;
+		k = k / 2;
+	}
+	return i;
+}
+
+
+int mod(int a, int k, int n) {
+	int arr[max];
+	int b = 1;
+	int length = convertBinary(arr, k);
+	int A = a;
+
+	if (arr[0] == 1) {
+		b = a;
+	}
+	for (int i = 1; i < length; i++) {
+		A = (A * A) % n;
+		if (arr[i] == 1) {
+			b = (A * b) % n;
+		}
+	}
+	return b;
+}
+
+int main() {
+	srand(time(NULL));
+	sang();
+
+	int p = primes[rand() % 1000];
+	int q = primes[rand() % 1000];
+
+	printf("p = %d, q = %d\n", p, q);
+	printf("Nhung so nguyen a < 100 thoa man la: ");
+
+	for (int a = 2; a < 100; a++) {
+		int result = mod(a, p, q); 
+		if (checkPrime(result)) {
+			printf("%d ", a);
+		}
+	}
+	printf("\n");
+
+	return 0;
+}
