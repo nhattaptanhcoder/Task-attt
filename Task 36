@@ -1,0 +1,68 @@
+#include <stdio.h>
+#include <string.h>
+#define MAX_CHAR 256
+
+int assign(char P[], int L[]) {
+    int m = strlen(P);
+    for (int i = 0; i < MAX_CHAR; i++) {
+        L[i] = -1;
+    }
+    for (int i = 0; i < m; i++) {
+        L[(int)P[i]] = i;
+    }
+
+
+    return m;
+}
+
+int min(int a, int b) {
+    return (a < b) ? a : b;
+}
+
+int booyerMoore(char P[], char T[]) {
+    int L[MAX_CHAR];
+    int m = assign(P, L);
+    int n = strlen(T);
+
+    int i = m - 1;
+    int j = m - 1;
+
+    while (i < n) {
+        if (T[i] == P[j]) {
+            if (j == 0) {
+                return i;
+            }
+            i--;
+            j--;
+        }
+		 else {
+            int l = L[(int)T[i]];
+            i = i + m - min(j, 1 + l);
+            j = m - 1;
+        }
+    }
+
+    return -1;
+}
+
+int main() {
+    char text[100];
+    char pattern[100];
+
+    printf("Nhap xau van ban (T): ");
+    fgets(text, sizeof(text), stdin);
+    printf("Nhap mau can tim (P): ");
+    fgets(pattern, sizeof(pattern), stdin);
+
+    text[strcspn(text, "\n")] = 0;
+    pattern[strcspn(pattern, "\n")] = 0;
+
+    int result = booyerMoore(pattern, text);
+
+    if (result != -1)
+        printf("\nMau xuat hien tai vi tri %d\n", result);
+    else
+        printf("\nKhong tim thay mau trong van ban.\n");
+
+    return 0;
+}
