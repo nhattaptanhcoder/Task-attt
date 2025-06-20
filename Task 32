@@ -1,0 +1,139 @@
+
+#include <stdio.h>
+#include <math.h>
+#include <stdbool.h>
+#include <stdlib.h>
+
+
+#define max 1000
+
+
+/*
+thuat toan :
+1. cho 2 so nguyen to p , q
+2.tinh n = p * q
+3.tinh phi(n) = ( p - 1) * (q-1)
+4. e la mot so nguyen sao cho gcd(e, phi(n)) = 1
+5. d= e^-1 mod (phi(n))
+ket luan :
+-> khoa cong khai (n , e)
+-> khoa bi mat ( n ,d)
+
+*/
+// ham sang so nguyen to va lay cac so nguyen to thuoc khoang (100;500)
+	int primes[max];
+int sievePrimes(){
+	
+	int count = 0;
+
+	bool isPrimes[10000001];
+	for (int i = 0 ; i <= 10000000 ; i++){
+		isPrimes[i] = true;
+	}
+	isPrimes[0] = isPrimes[1] = false;
+	for ( int i = 2 ; i <= 10000000 ; i++){
+		if(isPrimes[i]){
+			for( int j = i * i ; j <= 10000000 ; j+=i){
+				isPrimes[j] = false;
+			}
+		}
+	}
+	
+	for ( int i = 100 ; i < 500 ; i++){
+		if( isPrimes[i]) {
+			primes[count++] = i;
+		}
+	}
+	return count;
+	
+}
+
+// ham kiem tra xem gcd(e,phi(n)) = 1 
+//cai nay ko can lam vi de bai cho truoc rui
+int gcd(int a , int b){
+	while( b != 0 ){
+		int r = a % b;
+		a = b;
+		b = r;
+	}
+	return a;
+}
+
+// ham tinh d = e^-1 mod(phi(n))
+
+int inverseMod(int a, int p){
+	int u = a;
+	int v = p;
+	int x1 = 1;
+	int x2 = 0;
+	while( u != 0){
+		int q = v / u ;
+		int r = v - q * u;
+		int x = x2 - q * x1;
+		
+		v = u;
+		u = r;
+		x2 = x1; 
+		x1 = x;
+	}
+	if( v != 1 ){
+		return -1;
+	}
+	if ( x2 < 0 ) x2 += p;
+		
+	
+	return x2;
+	
+}
+//ham tinh m^e mod(n)  
+
+int convertBinary(int arr[], int k){
+	int i = 0;
+	while (k > 0){
+		arr[i++] = k % 2;
+		k = k / 2;
+	}
+	return i;
+}
+
+int mod( int k, int a, int n){
+	int arr[max];
+	int b = 1;
+	int length = convertBinary(arr, k);
+	int A = a;
+	if (arr[0] == 1){
+		b = a;
+	}
+	for (int i = 1; i < length; i++){
+		A = (A * A) % n;
+		if (arr[i] == 1){
+			b = (A * b) % n;
+		}
+	}
+	return b;
+}	
+	
+	
+	
+
+
+int main(){
+	int m;
+	printf("Nhap m = SBD ")
+	
+	 
+	
+	// lay 2 so nguyen to p , q
+	int length = sievePrimes();
+	srand(time(NULL));
+	int p = primes[rand() % length];
+	int q;
+	
+	do {
+        b =  primes[rand() % length];
+    } while (p == q);  
+	
+	
+	
+	return 0;
+}
