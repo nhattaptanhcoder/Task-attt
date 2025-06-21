@@ -1,0 +1,49 @@
+/*Cho 2 s? M và N tho? mãn ?i?u ki?n: 1<=N<=10000; 2<M<=100; Hãy vi?t ch??ng trình xác ??nh xem s? N có th? 
+???c phân tích thành tong cua M s? nguyên t? hay không? N?u có thì in ra các s? ?ó. 
+VD n=29,m=4 => [2,3,5,19] */
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+#define MAX 1000
+
+void exec(int* mang, int vitri, int tong, char kq[])
+{
+    if (vitri < -1)
+        return;
+
+    if (tong == 0)
+    {
+        printf("%s\n", kq);
+        return;
+    }
+
+    for (int i = vitri; i >= 0; i--)
+    {
+        if (tong >= mang[i])
+        {
+            // them mang[i] vao chuoi ket qua - cuc qua :(
+            char so[MAX];
+            char tem[MAX];
+            sprintf(so, "%d", mang[i]);
+            strcpy(tem, kq);
+            strcat(tem, so);
+            strcat(tem, " ");
+
+            exec(mang, i - 1, tong - mang[i], tem);
+        }
+    }
+}
+
+int main()
+{
+    int dayNT[] = { 2, 3, 5, 7, 11, 13, 17, 19, 23 };
+    int dodai_dayNT = sizeof(dayNT) / sizeof(int);
+    int SoCanTach;
+    printf("Nhap so can tach: ");
+    scanf("%d", &SoCanTach);
+
+    exec(dayNT, dodai_dayNT, SoCanTach, "");
+
+    system("pause");
+}
