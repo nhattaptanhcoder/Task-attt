@@ -1,0 +1,84 @@
+#include<stdio.h>
+#include<math.h>
+void mang(int X[1000],int a,int w,int t) {
+	int k = pow(2, w);
+	for (int i = 0; i < t; i++) {
+		X[i] = a % k;
+		a = a / k;
+	}
+}
+void tong_mang(int A[1000],int B[1000],int C[1000], int epxilon,int w,int t) {
+	int k = pow(2, w);
+	for (int i = 0; i < t; i++) {
+		if (i == 0) {
+			C[i] = A[i] + B[i];
+			if (C[i] < k) {
+				epxilon = 0;
+			}
+			else {
+				C[i] = (A[i] + B[i]) % k;
+					epxilon = 1;
+			}
+		}
+		else {
+			C[i] = A[i] + B[i]+epxilon;
+			if (C[i] < k) {
+				epxilon = 0;
+			}
+			else {
+				C[i] = (A[i] + B[i]+epxilon) % k;
+				epxilon = 1;
+			}
+		}
+	}
+}
+long long mang_sang_nguyen(int X[1000],int t,int w) {
+	long long sum = 0;
+	for (int i = t - 1; i >= 0; i--) {
+		sum += pow(2, i * w)*X[i];
+	}
+	return sum;
+}
+int main() {
+	int w,p, a, b;
+	int A[1000], B[1000];
+	printf("Nhap so nguyen to p: "); scanf("%d", &p);
+	printf("Nhap w bit: "); scanf("%d", &w);
+	printf("Nhap so nguyen lon a: "); scanf("%d", &a);
+	printf("Nhap so nguyen lon b: "); scanf("%d", &b);
+	int t, m;
+	m = floor(log(p) / log(2))+1;
+	t = floor(m / w) + 1;
+	mang(A, a, w, t);
+	printf("So nguyen lon a duoc bieu dien qua mang A:(");
+	for (int i = t - 1; i >= 0; i--) {
+		printf("%d", A[i]);
+		if (i != 0) printf(",");
+	}
+	printf(")");
+	mang(B, b, w, t);
+	printf("\nSo nguyen lon b duoc bieu dien qua mang B:(");
+	for (int i = t - 1; i >= 0; i--) {
+		printf("%d", B[i]);
+		if (i != 0) printf(",");
+	}
+	printf(")");
+	int epxilon=0;
+	int C[1000];
+	tong_mang(A, B, C, epxilon, w,t);
+	printf("\nSo nguyen lon b duoc bieu dien qua mang C:(");
+	for (int i = t - 1; i >= 0; i--) {
+		printf("%d", C[i]);
+		if (i != 0) printf(",");
+	}
+	printf(")");
+	long long c = mang_sang_nguyen(C, t, w);
+	printf("\nBieu dien tong A+B sang so nguyen: ");
+	printf("%lld", c);
+}
+/*
+p=2147483647
+w=8
+a=765432
+b=123456
+*/
