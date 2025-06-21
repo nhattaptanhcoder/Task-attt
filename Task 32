@@ -20,120 +20,99 @@ ket luan :
 -> khoa bi mat ( n ,d)
 
 */
-// ham sang so nguyen to va lay cac so nguyen to thuoc khoang (100;500)
-	int primes[max];
-int sievePrimes(){
-	
-	int count = 0;
 
-	bool isPrimes[10000001];
-	for (int i = 0 ; i <= 10000000 ; i++){
-		isPrimes[i] = true;
-	}
-	isPrimes[0] = isPrimes[1] = false;
-	for ( int i = 2 ; i <= 10000000 ; i++){
-		if(isPrimes[i]){
-			for( int j = i * i ; j <= 10000000 ; j+=i){
-				isPrimes[j] = false;
-			}
-		}
-	}
-	
-	for ( int i = 100 ; i < 500 ; i++){
-		if( isPrimes[i]) {
-			primes[count++] = i;
-		}
-	}
-	return count;
-	
+// Ham tim uoc chung lon nhat
+int gcd(int a, int b) {
+    while (b != 0) {
+        int r = a % b;
+        a = b;
+        b = r;
+    }
+    return a;
 }
 
-// ham kiem tra xem gcd(e,phi(n)) = 1 
-//cai nay ko can lam vi de bai cho truoc rui
-int gcd(int a , int b){
-	while( b != 0 ){
-		int r = a % b;
-		a = b;
-		b = r;
-	}
-	return a;
+// Ham tinh d = e^-1 mod(phi(n))
+int inverseMod(int a, int phi) {
+    int u = a, v = phi;
+    int x1 = 1, x2 = 0;
+
+    while (u != 0) {
+        int q = v / u;
+        int r = v - q * u;
+        int x = x2 - q * x1;
+
+        v = u;
+        u = r;
+        x2 = x1;
+        x1 = x;
+    }
+
+    if (v != 1) return -1;
+    if (x2 < 0) x2 += phi;
+    return x2;
+}
+// Chuyen so mu sang nhi phan
+int convertBinary(int arr[], long long k) {
+    int i = 0;
+    while (k > 0) {
+        arr[i++] = k % 2;
+        k /= 2;
+    }
+    return i;
 }
 
-// ham tinh d = e^-1 mod(phi(n))
+// Tinh a^k mod n bang thuat toan binh phuong nhan
+long long mod(long long k, long long a, long long n) {
+    int arr[1000]; // MAX = 1000
+    int length = convertBinary(arr, k);
+    long long A = a;
+    long long b = (arr[0] == 1) ? a : 1;
 
-int inverseMod(int a, int p){
-	int u = a;
-	int v = p;
-	int x1 = 1;
-	int x2 = 0;
-	while( u != 0){
-		int q = v / u ;
-		int r = v - q * u;
-		int x = x2 - q * x1;
-		
-		v = u;
-		u = r;
-		x2 = x1; 
-		x1 = x;
-	}
-	if( v != 1 ){
-		return -1;
-	}
-	if ( x2 < 0 ) x2 += p;
-		
-	
-	return x2;
-	
-}
-//ham tinh m^e mod(n)  
-
-int convertBinary(int arr[], int k){
-	int i = 0;
-	while (k > 0){
-		arr[i++] = k % 2;
-		k = k / 2;
-	}
-	return i;
+    for (int i = 1; i < length; i++) {
+        A = (A * A) % n;
+        if (arr[i] == 1) {
+            b = (b * A) % n;
+        }
+    }
+    return b;
 }
 
-int mod( int k, int a, int n){
-	int arr[max];
-	int b = 1;
-	int length = convertBinary(arr, k);
-	int A = a;
-	if (arr[0] == 1){
-		b = a;
-	}
-	for (int i = 1; i < length; i++){
-		A = (A * A) % n;
-		if (arr[i] == 1){
-			b = (A * b) % n;
-		}
-	}
-	return b;
-}	
-	
-	
-	
 
+int main() {
+    int p, q, e, SBD;
 
-int main(){
-	int m;
-	printf("Nhap m = SBD ")
-	
-	 
-	
-	// lay 2 so nguyen to p , q
-	int length = sievePrimes();
-	srand(time(NULL));
-	int p = primes[rand() % length];
-	int q;
-	
-	do {
-        b =  primes[rand() % length];
-    } while (p == q);  
-	
-	
-	
-	return 0;
+    printf("Nhap so nguyen to p (100 < p < 500): ");
+    scanf("%d", &p);
+    printf("Nhap so nguyen to q (100 < q < 500, q khac p): ");
+    scanf("%d", &q);
+    printf("Nhap e (nguyen to cung nhau voi (p-1)(q-1)): ");
+    scanf("%d", &e);
+    printf("Nhap so bao danh (SBD): ");
+    scanf("%d", &SBD);
+
+    int n = p * q;
+    int phi = (p - 1) * (q - 1);
+
+    if (gcd(e, phi) != 1) {
+        printf("Gia tri e = %d khong nguyen to cung nhau voi phi(n) = %d\n", e, phi);
+        return 1;
+    }
+
+    int d = inverseMod(e, phi);
+    if (d == -1) {
+        printf("Khong tim duoc nghich dao modular cua e = %d\n", e);
+        return 1;
+    }
+
+    int m = SBD + 123;
+    long long c = mod(e, m, n); // ma hoa
+    long long g = mod(d, c, n); // giai ma
+
+    printf("\nKhoa cong khai (n, e): (%d, %d)", n, e);
+    printf("\nKhoa bi mat (n, d): (%d, %d)", n, d);
+    printf("\nThong diep ban dau m = %d", m);
+    printf("\nBan ma sau khi ma hoa c = %lld", c);
+    printf("\nThong diep sau khi giai ma m = %lld\n", g);
+
+    return 0;
 }
