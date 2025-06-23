@@ -1,0 +1,66 @@
+#include <stdio.h>
+#include <string.h> 
+#include <stdlib.h>
+
+void failureFunction(char P[], int F[]) {
+    int m = strlen(P);
+    F[0] = -1;
+    int i = 0, j = -1;
+    while (i < m) {
+        if (j == -1 || P[i] == P[j]) {
+            i++;
+            j++;
+            F[i] = j;
+        } else {
+            j = F[j];
+        }
+    }
+}
+
+int kmp(char T[], char P[]) {
+    int F[1000];
+    failureFunction(P, F);
+
+    int n = strlen(T);
+    int m = strlen(P);
+    int i = 0, j = 0;
+
+    while (i < n) {
+        if (T[i] == P[j]) {
+            i++;
+            j++;
+            if (j == m) return i - m; 
+        } else {
+            if (F[j] == -1) {
+                i++;
+                j = 0;
+            } else {
+                j = F[j];
+            }
+        }
+    }
+
+    return -1; 
+}
+
+int main() {
+    char text[100];
+    char pattern[100];
+
+    printf("Nhap xau van ban (T): ");
+    fgets(text, sizeof(text), stdin);
+    printf("Nhap mau can tim (P): ");
+    fgets(pattern, sizeof(pattern), stdin);
+
+    text[strcspn(text, "\n")] = 0;
+    pattern[strcspn(pattern, "\n")] = 0;
+
+    int result = kmp(text, pattern);
+
+    if (result != -1)
+        printf("\nMau xuat hien tai vi tri %d\n", result);
+    else
+        printf("\nKhong tim thay mau trong van ban.\n");
+
+    return 0;
+}
