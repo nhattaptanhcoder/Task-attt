@@ -1,0 +1,113 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <time.h>
+#include <limits.h>
+
+#define max 10000
+#define MAX_N 1000
+
+
+int convertBinary(int arr[], int k){
+	int i = 0;
+	while (k > 0){
+		arr[i++] = k % 2;
+		k = k / 2;
+	}
+	return i;
+}
+
+
+int mod(int k, int a, int n){
+	int arr[max];
+	int b = 1;
+	int length = convertBinary(arr, k);
+	int A = a;
+	if (arr[0] == 1){
+		b = a;
+	}
+	for (int i = 1; i < length; i++){
+		A = (A * A) % n;
+		if (arr[i] == 1){
+			b = (A * b) % n;
+		}
+	}
+	return b;
+}
+
+
+int milerRabin(int n , int a){
+	if( n == 2 || n == 3 ) return 1;
+	if ( n < 2 || n % 2 == 0 ) return 0;
+	int s = 0;
+	int r = n - 1;
+	while ( r % 2 == 0){
+		s ++;
+		r /= 2;
+	}
+	int y = mod(r ,a , n);
+	if ( y == 1 || y == n-1) return 1 ;
+	for ( int i = 1 ; i < s; i++){
+		y = ( y * y ) % n;
+		if ( y == 1 ) return 0;
+		if ( y == n - 1)  return 1;
+	}
+	return 0;
+}
+
+bool checkPrime (int t, int n ){
+	for ( int i = 0 ; i < t ; i++){
+		if (n <= 4) return (n == 2 || n == 3);
+	    int a = 2 + rand() % ( n - 3 );
+		if (!milerRabin(n, a)) return false;
+	}
+	return true;
+}
+
+
+int findMinDistance(int a[], int n) {
+	int minDist = INT_MAX;
+	for (int i = 0; i < n - 1; i++) {
+		for (int j = i + 1; j < n; j++) {
+			int d = abs(a[i] - a[j]);
+			if (d < minDist) {
+				minDist = d;
+			}
+		}
+	}
+	return minDist;
+}
+
+int main(){
+	srand(time(NULL));
+	int N;
+	printf("Nhap so N: ");
+	scanf("%d", &N);
+
+	if (N <= 0 || N > MAX_N) {
+		printf("Gia tri N khong hop le!\n");
+		return 1;
+	}
+
+	int t = 5;  
+	int A[MAX_N], count = 0, num = 2;
+
+	while (count < N) {
+		if (checkPrime(t, num)) {
+			A[count++] = num;
+		}
+		num++;
+	}
+
+
+	printf("\nMang %d so nguyen to:\n", N);
+	for (int i = 0; i < N; i++) {
+		printf("%d ", A[i]);
+	}
+
+
+	int minDist = findMinDistance(A, N);
+	printf("\n\nKhoang cach nho nhat giua hai so bat ky: %d\n", minDist);
+
+	return 0;
+}
